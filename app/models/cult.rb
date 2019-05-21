@@ -1,5 +1,5 @@
 class Cult
-  attr_accessor :name, :location, :founding_year, :slogan
+  attr_accessor :name, :location, :founding_year, :slogan, :minimum_age
 
   @@all = []
 
@@ -14,7 +14,11 @@ class Cult
 
   ##instance methods
   def recruit_follower(follower, initiation_date)
-    BloodOath.new(initiation_date, self, follower)
+    if follower.age < self.minimum_age
+      puts "Sorry, you are too young to join this cult."
+    else
+      BloodOath.new(initiation_date, self, follower)
+    end
   end
 
   def my_oaths
@@ -40,6 +44,8 @@ class Cult
       puts oath.follower.life_motto
     end
   end
+
+
 
   ##class methods
   def self.all

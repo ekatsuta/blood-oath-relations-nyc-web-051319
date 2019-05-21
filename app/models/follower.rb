@@ -26,13 +26,27 @@ class Follower
   end
 
   def join_cult(cult, initiation_date)
-    BloodOath.new(initiation_date, cult, self)
+    if self.age < cult.minimum_age
+      puts "Sorry, you are too young to join this cult."
+    else
+      BloodOath.new(initiation_date, cult, self)
+    end
   end
 
   def my_cult_slogans
     self.cults.each do |oath|
       puts oath.cult.slogan
     end
+  end
+
+  def fellow_cult_members
+    followers = []
+    BloodOath.all.each do |oath|
+      if self.cults.include?(oath.cult) && oath.follower != self
+        followers << oath.follower
+      end
+    end
+    followers.uniq
   end
 
   ##class methods
